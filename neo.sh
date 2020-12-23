@@ -59,4 +59,5 @@ tar xvf AdGuardHome_linux_amd64.tar.gz
 mv AdGuardHome  /usr/share/
 chmod 777 -R /usr/share/AdGuardHome
 ./usr/share/AdGuardHome -s install
-reboot
+# Install BT Panel for Website Hosting and SSL;
+curl -sSO http://download.bt.cn/install/install_panel.sh && bash install_panel.sh -y
