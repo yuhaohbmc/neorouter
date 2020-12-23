@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Get root permission so don't need to use sudo each time; 
-sudo -s
-
 # Check and install software updates;
 echo | add-apt-repository ppa:poplite/qbittorrent-enhanced
 apt update
