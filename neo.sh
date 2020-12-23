@@ -22,7 +22,6 @@ echo net.ipv4.icmp_ignore_bogus_error_responses = 1 >> /etc/sysctl.conf
 
 # Disable source packet routing
 echo net.ipv4.conf.all.accept_source_route = 0 >> /etc/sysctl.conf
-echo net.ipv6.conf.all.accept_source_route = 0 >> /etc/sysctl.conf
 echo net.ipv4.conf.default.accept_source_route = 0 >> /etc/sysctl.conf
 
 
