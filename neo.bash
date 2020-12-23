@@ -40,20 +40,10 @@ mv /etc/ufw/before.rules.new /etc/ufw/before.rules
 ufw route allow in on 192.168.1.0/24 out on enp3s0
 ufw allow in on enp3s0 to any port 4443 proto tcp
 ufw allow in on enp3s0 to any port 4443 proto udp
-ufw allow from 192.168.1.0/24 to ssh
-ufw allow from 192.168.1.0/24 to samba
-ufw allow 443/tcp
-ufw allow 80/tcp
-ufw allow from 192.168.1.0/24 to any port 9527 proto tcp
-ufw allow from 192.168.1.0/24 to any port 3000 proto tcp
-ufw allow from 192.168.1.0/24 to any port 53 proto udp
-ufw allow from 192.168.1.0/24 to any port 53 proto tcp
-ufw allow from 192.168.1.0/24 to any port 67 proto udp
-ufw allow from 192.168.1.0/24 to any port 68 proto udp
-ufw allow from 192.168.1.0/24 to any port 8096 proto tcp
-ufw allow from 192.168.1.0/24 to any port 8080 proto tcp
-ufw allow from 192.168.1.0/24 to any port 6881 proto udp
-ufw allow from 192.168.1.0/24 to any port 6881 proto tcp
+ufw allow in on enp3s0 to any port 80 proto tcp
+ufw allow in on enp3s0 to any port 443 proto tcp
+ufw allow from 192.168.1.0/24
+
 
 #restart ufw
 ufw disable
