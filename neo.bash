@@ -63,3 +63,4 @@ mkdir /usr/share/AdGuardHome;
 mv AdGuardHome  /usr/share/AdGuardHome;
 chmod 777 -R /usr/share/AdGuardHome;
 ./usr/share/AdGuardHome -s install;
+reboot
