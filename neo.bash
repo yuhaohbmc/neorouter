@@ -38,7 +38,6 @@ mv /etc/ufw/before.rules.new /etc/ufw/before.rules
 
 #ufw rules for applications and network routing
 ufw route allow in on enp2s0 out on enp3s0
-ufw route allow in on enp3s0 out on enp2s0
 ufw allow in on enp3s0 to any port 4443 proto tcp
 ufw allow in on enp3s0 to any port 4443 proto udp
 ufw allow in on enp3s0 to any port 80 proto tcp
