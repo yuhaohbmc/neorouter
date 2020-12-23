@@ -56,7 +56,7 @@ dpkg -i emby-server-deb_4.5.4.0_amd64.deb
 rm emby-server-deb_4.5.4.0_amd64.deb
 wget https://static.adguard.com/adguardhome/release/AdGuardHome_linux_amd64.tar.gz
 tar xvf AdGuardHome_linux_amd64.tar.gz
-mv AdGuardHome  /usr/share/AdGuardHome
+mv AdGuardHome  /usr/share/
 chmod 777 -R /usr/share/AdGuardHome
 ./usr/share/AdGuardHome -s install
 reboot
