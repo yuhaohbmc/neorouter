@@ -37,7 +37,13 @@ ufw allow 80/tcp
 ufw allow from 192.168.1.0/24 to any port 9527 proto tcp
 ufw allow from 192.168.1.0/24 to any port 3000 proto tcp
 ufw allow from 192.168.1.0/24 to any port 53 proto udp
+ufw allow from 192.168.1.0/24 to any port 53 proto tcp
+ufw allow from 192.168.1.0/24 to any port 67 proto udp
+ufw allow from 192.168.1.0/24 to any port 68 proto udp
+ufw allow from 192.168.1.0/24 to any port 8096 proto tcp
+ufw allow from 192.168.1.0/24 to any port 8080 proto tcp
+ufw allow from 192.168.1.0/24 to any port 6881 proto udp
+ufw allow from 192.168.1.0/24 to any port 6881 proto tcp
 ufw disable
 ufw enable
-ufw reload -y
 
