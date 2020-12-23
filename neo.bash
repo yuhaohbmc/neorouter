@@ -1,7 +1,11 @@
 #!/bin/bash
+
 sudo -s
+
 apt update && apt upgrade -y
+
 apt install samba ocserv -y
+
 cp /etc/sysctl.conf  /etc/sysctl.conf.bak
 echo net/ipv4/ip_forward=1 >> /etc/sysctl.conf
 echo net.ipv4.conf.all.proxy_arp=1 >> /etc/sysctl.conf
@@ -16,9 +20,13 @@ echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
 sysctl -p
 sysctl net.ipv4.tcp_available_congestion_control
 lsmod | grep bbr
+
+
 cp /etc/ufw/before.rules   /etc/ufw/before.rules.bak
-rm /etc/ufw/before.rules
-echo -e "*nat\n:POSTROUTING ACCEPT [0:0]\n-A POSTROUTING -s 192.168.1.0/24 -o enp3s0 -j MASQUERADE\nCOMMIT" >> /etc/ufw/before.rules
+echo -e "*nat\n:POSTROUTING ACCEPT [0:0]\n-A POSTROUTING -s 192.168.1.0/24 -o enp3s0 -j MASQUERADE\nCOMMIT" >> /etc/ufw/before.rules.new
+cat /etc/ufw/before.rules >> /etc/ufw/before.rules.new
+mv /etc/ufw/before.rules.new /etc/ufw/before.rules
+
 ufw route allow in on 192.168.1.0/24 out on enp3s0
 ufw allow in on enp3s0 to any port 4443 proto tcp
 ufw allow in on enp3s0 to any port 4443 proto udp
