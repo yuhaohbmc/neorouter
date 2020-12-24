@@ -15,7 +15,7 @@ conf_file="/etc/ocserv"
 conf="/etc/ocserv/ocserv.conf"
 passwd_file="/etc/ocserv/ocpasswd"
 log_file="/tmp/ocserv.log"
-ocserv_ver="0.11.8"
+ocserv_ver="1.1.2"
 PID_FILE="/var/run/ocserv.pid"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -27,24 +27,7 @@ check_root(){
 	[[ $EUID != 0 ]] && echo -e "${Error} 当前非ROOT账号(或没有ROOT权限)，无法继续操作，请更换ROOT账号或使用 ${Green_background_prefix}sudo su${Font_color_suffix} 命令获取临时ROOT权限（执行后可能会提示输入当前账号的密码）。" && exit 1
 }
 #检查系统
-check_sys(){
-	if [[ -f /etc/redhat-release ]]; then
-		release="centos"
-	elif cat /etc/issue | grep -q -E -i "debian"; then
-		release="debian"
-	elif cat /etc/issue | grep -q -E -i "ubuntu"; then
-		release="ubuntu"
-	elif cat /etc/issue | grep -q -E -i "centos|red hat|redhat"; then
-		release="centos"
-	elif cat /proc/version | grep -q -E -i "debian"; then
-		release="debian"
-	elif cat /proc/version | grep -q -E -i "ubuntu"; then
-		release="ubuntu"
-	elif cat /proc/version | grep -q -E -i "centos|red hat|redhat"; then
-		release="centos"
-    fi
-	#bit=`uname -m`
-}
+
 check_installed_status(){
 	[[ ! -e ${file} ]] && echo -e "${Error} ocserv 没有安装，请检查 !" && exit 1
 	[[ ! -e ${conf} ]] && echo -e "${Error} ocserv 配置文件不存在，请检查 !" && [[ $1 != "un" ]] && exit 1
@@ -70,8 +53,8 @@ Get_ip(){
 }
 Download_ocserv(){
 	mkdir "ocserv" && cd "ocserv"
-	wget "ftp://ftp.infradead.org/pub/ocserv/ocserv-1.1.2.tar.xz"
-	[[ ! -s "ocserv-1.1.2.tar.xz" ]] && echo -e "${Error} ocserv 源码文件下载失败 !" && rm -rf "ocserv/" && rm -rf "ocserv-1.1.2.tar.xz" && exit 1
+	wget "ftp://ftp.infradead.org/pub/ocserv/ocserv-${ocserv_ver}.tar.xz"
+	[[ ! -s "ocserv-${ocserv_ver}.tar.xz" ]] && echo -e "${Error} ocserv 源码文件下载失败 !" && rm -rf "ocserv/" && rm -rf "ocserv-${ocserv_ver}.tar.xz" && exit 1
 	tar -xJf ocserv-1.1.2.tar.xz && cd ocserv-1.1.2
 	./configure
 	make
@@ -101,60 +84,58 @@ rand(){
 	num=$(date +%s%N)
 	echo $(($num%$max+$min))
 }
-Generate_SSL(){
-	lalala=$(rand)
-	mkdir /tmp/ssl && cd /tmp/ssl
-	echo -e 'cn = "'${lalala}'"
-organization = "'${lalala}'"
-serial = 1
-expiration_days = 365
-ca
-signing_key
-cert_signing_key
-crl_signing_key' > ca.tmpl
-	[[ $? != 0 ]] && echo -e "${Error} 写入SSL证书签名模板失败(ca.tmpl) !" && over
-	certtool --generate-privkey --outfile ca-key.pem
-	[[ $? != 0 ]] && echo -e "${Error} 生成SSL证书密匙文件失败(ca-key.pem) !" && over
-	certtool --generate-self-signed --load-privkey ca-key.pem --template ca.tmpl --outfile ca-cert.pem
-	[[ $? != 0 ]] && echo -e "${Error} 生成SSL证书文件失败(ca-cert.pem) !" && over
-	
-	Get_ip
-	if [[ -z "$ip" ]]; then
-		echo -e "${Error} 检测外网IP失败 !"
-		read -e -p "请手动输入你的服务器外网IP:" ip
-		[[ -z "${ip}" ]] && echo "取消..." && over
-	fi
-	echo -e 'cn = "'${ip}'"
-organization = "'${lalala}'"
-expiration_days = 365
-signing_key
-encryption_key
-tls_www_server' > server.tmpl
-	[[ $? != 0 ]] && echo -e "${Error} 写入SSL证书签名模板失败(server.tmpl) !" && over
-	certtool --generate-privkey --outfile server-key.pem
-	[[ $? != 0 ]] && echo -e "${Error} 生成SSL证书密匙文件失败(server-key.pem) !" && over
-	certtool --generate-certificate --load-privkey server-key.pem --load-ca-certificate ca-cert.pem --load-ca-privkey ca-key.pem --template server.tmpl --outfile server-cert.pem
-	[[ $? != 0 ]] && echo -e "${Error} 生成SSL证书文件失败(server-cert.pem) !" && over
-	
-	mkdir /etc/ocserv/ssl
-	mv ca-cert.pem /etc/ocserv/ssl/ca-cert.pem
-	mv ca-key.pem /etc/ocserv/ssl/ca-key.pem
-	mv server-cert.pem /etc/ocserv/ssl/server-cert.pem
-	mv server-key.pem /etc/ocserv/ssl/server-key.pem
-	cd .. && rm -rf /tmp/ssl/
-}
+#===================================
+#comment this as I don't need certs
+#uncomment this if you are going to use this tool to generate certs
+#Generate_SSL(){
+#         lalala=$(rand)
+#	mkdir /tmp/ssl && cd /tmp/ssl
+#	echo -e 'cn = "'${lalala}'"
+# organization = "'${lalala}'"
+# serial = 1
+# expiration_days = 365
+# ca
+# signing_key
+# cert_signing_key
+# crl_signing_key' > ca.tmpl
+#	[[ $? != 0 ]] && echo -e "${Error} 写入SSL证书签名模板失败(ca.tmpl) !" && over
+#	certtool --generate-privkey --outfile ca-key.pem
+#	[[ $? != 0 ]] && echo -e "${Error} 生成SSL证书密匙文件失败(ca-key.pem) !" && over
+#	certtool --generate-self-signed --load-privkey ca-key.pem --template ca.tmpl --outfile ca-cert.pem
+#	[[ $? != 0 ]] && echo -e "${Error} 生成SSL证书文件失败(ca-cert.pem) !" && over
+#	
+#	Get_ip
+#	if [[ -z "$ip" ]]; then
+#		echo -e "${Error} 检测外网IP失败 !"
+#		read -e -p "请手动输入你的服务器外网IP:" ip
+#		[[ -z "${ip}" ]] && echo "取消..." && over
+#	fi
+#	echo -e 'cn = "'${ip}'"
+# organization = "'${lalala}'"
+# expiration_days = 365
+# signing_key
+# encryption_key
+# tls_www_server' > server.tmpl
+#	[[ $? != 0 ]] && echo -e "${Error} 写入SSL证书签名模板失败(server.tmpl) !" && over
+#	certtool --generate-privkey --outfile server-key.pem
+#	[[ $? != 0 ]] && echo -e "${Error} 生成SSL证书密匙文件失败(server-key.pem) !" && over
+#	certtool --generate-certificate --load-privkey server-key.pem --load-ca-certificate ca-cert.pem --load-ca-privkey ca-key.pem --template server.tmpl --outfile server-cert.pem
+#	[[ $? != 0 ]] && echo -e "${Error} 生成SSL证书文件失败(server-cert.pem) !" && over
+#	
+#	mkdir /etc/ocserv/ssl
+#	mv ca-cert.pem /etc/ocserv/ssl/ca-cert.pem
+#	mv ca-key.pem /etc/ocserv/ssl/ca-key.pem
+#	mv server-cert.pem /etc/ocserv/ssl/server-cert.pem
+#	mv server-key.pem /etc/ocserv/ssl/server-key.pem
+#	cd .. && rm -rf /tmp/ssl/
+#}
 Installation_dependency(){
 	[[ ! -e "/dev/net/tun" ]] && echo -e "${Error} 你的VPS没有开启TUN，请联系IDC或通过VPS控制面板打开TUN/TAP开关 !" && exit 1
-	if [[ ${release} = "centos" ]]; then
-		echo -e "${Error} 本脚本不支持 CentOS 系统 !" && exit 1
-	elif [[ ${release} = "debian" ]]; then
 		cat /etc/issue |grep 9\..*>/dev/null
 		if [[ $? = 0 ]]; then
 			apt-get update
 			apt-get install vim net-tools pkg-config build-essential libgnutls28-dev libwrap0-dev liblz4-dev libseccomp-dev libreadline-dev libnl-nf-3-dev libev-dev gnutls-bin -y
 		else
-			mv /etc/apt/sources.list /etc/apt/sources.list.bak
-			wget --no-check-certificate -O "/etc/apt/sources.list" "https://raw.githubusercontent.com/ToyoDAdoubiBackup/doubi/master/sources/us.sources.list"
 			apt-get update
 			apt-get install vim net-tools pkg-config build-essential libgnutls28-dev libwrap0-dev liblz4-dev libseccomp-dev libreadline-dev libnl-nf-3-dev libev-dev gnutls-bin -y
 			rm -rf /etc/apt/sources.list
@@ -175,17 +156,9 @@ Install_ocserv(){
 	Download_ocserv
 	echo -e "${Info} 开始下载/安装 服务脚本(init)..."
 	Service_ocserv
-	echo -e "${Info} 开始自签SSL证书..."
-	Generate_SSL
 	echo -e "${Info} 开始设置账号配置..."
 	Read_config
 	Set_Config
-	echo -e "${Info} 开始设置 iptables防火墙..."
-	Set_iptables
-	echo -e "${Info} 开始添加 iptables防火墙规则..."
-	Add_iptables
-	echo -e "${Info} 开始保存 iptables防火墙规则..."
-	Save_iptables
 	echo -e "${Info} 所有步骤 安装完毕，开始启动..."
 	Start_ocserv
 }
@@ -459,63 +432,18 @@ over(){
 	rm -f occtl.8
 	echo && echo "安装过程错误，ocserv 卸载完成 !" && echo
 }
-Add_iptables(){
-	iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport ${set_tcp_port} -j ACCEPT
-	iptables -I INPUT -m state --state NEW -m udp -p udp --dport ${set_udp_port} -j ACCEPT
-}
-Del_iptables(){
-	iptables -D INPUT -m state --state NEW -m tcp -p tcp --dport ${tcp_port} -j ACCEPT
-	iptables -D INPUT -m state --state NEW -m udp -p udp --dport ${udp_port} -j ACCEPT
-}
-Save_iptables(){
-	iptables-save > /etc/iptables.up.rules
-}
-Set_iptables(){
-	echo -e "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
-	sysctl -p
-	ifconfig_status=$(ifconfig)
-	if [[ -z ${ifconfig_status} ]]; then
-		echo -e "${Error} ifconfig 未安装 !"
-		read -e -p "请手动输入你的网卡名(一般情况下，网卡名为 eth0，Debian9 则为 ens3，CentOS Ubuntu 最新版本可能为 enpXsX(X代表数字或字母)，OpenVZ 虚拟化则为 venet0):" Network_card
-		[[ -z "${Network_card}" ]] && echo "取消..." && exit 1
-	else
-		Network_card=$(ifconfig|grep "eth0")
-		if [[ ! -z ${Network_card} ]]; then
-			Network_card="eth0"
-		else
-			Network_card=$(ifconfig|grep "ens3")
-			if [[ ! -z ${Network_card} ]]; then
-				Network_card="ens3"
-			else
-				Network_card=$(ifconfig|grep "venet0")
-				if [[ ! -z ${Network_card} ]]; then
-					Network_card="venet0"
-				else
-					ifconfig
-					read -e -p "检测到本服务器的网卡非 eth0 \ ens3(Debian9) \ venet0(OpenVZ) \ enpXsX(CentOS Ubuntu 最新版本，X代表数字或字母)，请根据上面输出的网卡信息手动输入你的网卡名:" Network_card
-					[[ -z "${Network_card}" ]] && echo "取消..." && exit 1
-				fi
-			fi
-		fi
-	fi
-	iptables -t nat -A POSTROUTING -o ${Network_card} -j MASQUERADE
-	
-	iptables-save > /etc/iptables.up.rules
-	echo -e '#!/bin/bash\n/sbin/iptables-restore < /etc/iptables.up.rules' > /etc/network/if-pre-up.d/iptables
-	chmod +x /etc/network/if-pre-up.d/iptables
-}
+
 Update_Shell(){
-	sh_new_ver=$(wget --no-check-certificate -qO- -t1 -T3 "https://raw.githubusercontent.com/ToyoDAdoubiBackup/doubi/master/ocserv.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1) && sh_new_type="github"
+	sh_new_ver=$(wget --no-check-certificate -qO- -t1 -T3 "https://raw.githubusercontent.com/NYOOBEO/Ubuntu-Router/main/ocserv.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1) && sh_new_type="github"
 	[[ -z ${sh_new_ver} ]] && echo -e "${Error} 无法链接到 Github !" && exit 0
 	if [[ -e "/etc/init.d/ocserv" ]]; then
 		rm -rf /etc/init.d/ocserv
 		Service_ocserv
 	fi
-	wget -N --no-check-certificate "https://raw.githubusercontent.com/ToyoDAdoubiBackup/doubi/master/ocserv.sh" && chmod +x ocserv.sh
+	wget -N --no-check-certificate "https://raw.githubusercontent.com/NYOOBEO/Ubuntu-Router/main/ocserv.sh" && chmod +x ocserv.sh
 	echo -e "脚本已更新为最新版本[ ${sh_new_ver} ] !(注意：因为更新方式为直接覆盖当前运行的脚本，所以可能下面会提示一些报错，无视即可)" && exit 0
 }
-check_sys
-[[ ${release} != "debian" ]] && [[ ${release} != "ubuntu" ]] && echo -e "${Error} 本脚本不支持当前系统 ${release} !" && exit 1
+
 echo && echo -e " ocserv 一键安装管理脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
   -- Toyo | doub.io/vpnzy-7 --
   
