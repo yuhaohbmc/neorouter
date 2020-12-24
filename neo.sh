@@ -48,6 +48,14 @@ echo net.ipv4.conf.all.accept_redirects = 0 >> /etc/sysctl.conf
 echo net.ipv4.conf.default.accept_redirects = 0 >> /etc/sysctl.conf
 echo net.ipv4.conf.all.secure_redirects = 0 >> /etc/sysctl.conf
 echo net.ipv4.conf.default.secure_redirects = 0 >> /etc/sysctl.conf
+
+#enable ARP for same subnet in OpenConnect VPN
+net.ipv4.conf.all.proxy_arp=1
+
+#increase maximum file size that the system can handle
+fs.file-max=100000
+
+#Enable TCP BBR
 echo net.core.default_qdisc=fq >> /etc/sysctl.conf
 echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
 sysctl -p
@@ -69,7 +77,7 @@ ufw allow in on enp3s0 to any port 443 proto tcp
 ufw allow in on enp3s0 to any port 6881 proto tcp
 ufw allow in on enp3s0 to any port 6881 proto udp
 ufw allow from 192.168.1.0/24
-
+ufw default allow routed
 
 #restart ufw;
 ufw disable
@@ -77,11 +85,10 @@ ufw enable -y
 
 #install software;
 #Samba for file sharing;
-#ocserv for VPN;
 #Qbittorrent-nox-enhanced for torrent and magnet download;
 #emby for internal media play;
 #AdGuardHome for DNS and DHCP server;
-apt install samba ocserv qbittorrent-enhanced-nox -y
+apt install samba qbittorrent-enhanced-nox -y
 systemctl enable qbittorrent-enhanced-nox
 wget https://github.com/MediaBrowser/Emby.Releases/releases/download/4.5.4.0/emby-server-deb_4.5.4.0_amd64.deb
 dpkg -i emby-server-deb_4.5.4.0_amd64.deb
@@ -91,5 +98,11 @@ tar xvf AdGuardHome_linux_amd64.tar.gz
 mv AdGuardHome  /usr/share/
 chmod 777 -R /usr/share/AdGuardHome
 ./usr/share/AdGuardHome -s install
+
 # Install BT Panel for Website Hosting and SSL;
 curl -sSO http://download.bt.cn/install/install_panel.sh && bash install_panel.sh -y
+
+#Compile the latest version of ocserv 1.1.2 and install
+wget https://raw.githubusercontent.com/NYOOBEO/Ubuntu-Router/main/ocserv.sh
+chmod 777 ocserv.sh
+./ocserv.sh
