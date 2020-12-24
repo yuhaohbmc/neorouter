@@ -59,6 +59,17 @@ net.ipv4.conf.all.proxy_arp=1
 #increase maximum file size that the system can handle
 fs.file-max=100000
 
+# This will increase the amount of memory available for socket input/output queues
+echo net.core.rmem_default = 65535 >> /etc/sysctl.conf
+echo net.core.rmem_max = 33554432 >> /etc/sysctl.conf
+echo net.ipv4.tcp_rmem = 10240 87380 33554432 >> /etc/sysctl.conf
+echo net.core.wmem_default = 65535 >> /etc/sysctl.conf
+echo net.core.wmem_max = 33554432 >> /etc/sysctl.conf
+echo net.ipv4.tcp_wmem = 10240 87380 33554432 >> /etc/sysctl.conf
+echo net.ipv4.tcp_mem = 33554432 33554432 33554432 >> /etc/sysctl.conf
+echo net.core.optmem_max = 40960 >> /etc/sysctl.conf
+
+
 #Enable TCP BBR
 echo net.core.default_qdisc=fq >> /etc/sysctl.conf
 echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
