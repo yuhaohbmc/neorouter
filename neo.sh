@@ -1,5 +1,9 @@
 #!/bin/bash
 
+lannic="enp2s0"
+wannic="enp3s0"
+lancdir="192.168.1.0/24"
+
 # Check and install software updates;
 echo | add-apt-repository ppa:poplite/qbittorrent-enhanced
 apt update
