@@ -13,3 +13,6 @@ Ocserv - Openconnect VPN server
 AdGuardHome - serve as DNS and DHCP server
 
 Set IP forwarding, NAT and UFW firewall related.
+
+
+download neo.sh to your local server, grant permissions and run it.
