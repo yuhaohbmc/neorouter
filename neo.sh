@@ -86,8 +86,7 @@ mv /etc/ufw/before.rules.new /etc/ufw/before.rules
 #ufw rules for applications and network routing;
 ufw default allow routed
 ufw default deny incoming
-ufw default deny outgoing
-ufw allow out on ${wannic} to any
+ufw default allow outgoing
 ufw allow in on ${wannic} to any port 4443 proto tcp
 ufw allow in on ${wannic} to any port 1030 proto udp
 ufw allow in on ${wannic} to any port 80 proto tcp
