@@ -79,7 +79,7 @@ lsmod | grep bbr
 
 #Add NAT to ufw;
 cp /etc/ufw/before.rules   /etc/ufw/before.rules.bak
-echo -e "*nat\n:POSTROUTING ACCEPT [0:0]\n-A POSTROUTING -s 192.168.1.0/24 -o enp3s0 -j MASQUERADE\nCOMMIT" >> /etc/ufw/before.rules.new
+echo -e "*nat\n:POSTROUTING ACCEPT [0:0]\n-A POSTROUTING -s ${lancdir} -o ${wannic} -j MASQUERADE\nCOMMIT" >> /etc/ufw/before.rules.new
 cat /etc/ufw/before.rules >> /etc/ufw/before.rules.new
 mv /etc/ufw/before.rules.new /etc/ufw/before.rules
 
@@ -108,14 +108,16 @@ ufw enable -y
 #AdGuardHome for DNS and DHCP server;
 apt install samba qbittorrent-enhanced-nox -y
 systemctl enable qbittorrent-enhanced-nox
-wget https://github.com/MediaBrowser/Emby.Releases/releases/download/4.5.4.0/emby-server-deb_4.5.4.0_amd64.deb
-dpkg -i emby-server-deb_4.5.4.0_amd64.deb
-rm emby-server-deb_4.5.4.0_amd64.deb
 wget https://static.adguard.com/adguardhome/release/AdGuardHome_linux_amd64.tar.gz
 tar xvf AdGuardHome_linux_amd64.tar.gz
 mv AdGuardHome  /usr/share/
 chmod 777 -R /usr/share/AdGuardHome
 ./usr/share/AdGuardHome -s install
+sudo apt install apt-transport-https
+wget -O - https://repo.jellyfin.org/jellyfin_team.gpg.key | sudo apt-key add -
+echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$( awk -F'=' '/^ID=/{ print $NF }' /etc/os-release ) $( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release ) main" | sudo tee /etc/apt/sources.list.d/jellyfin.list
+sudo apt update
+sudo apt install jellyfin
 
 # Install BT Panel for Website Hosting and SSL;
 curl -sSO http://download.bt.cn/install/install_panel.sh && bash install_panel.sh -y
@@ -124,3 +126,5 @@ curl -sSO http://download.bt.cn/install/install_panel.sh && bash install_panel.s
 wget https://raw.githubusercontent.com/NYOOBEO/Ubuntu-Router/main/ocserv.sh
 chmod 777 ocserv.sh
 ./ocserv.sh
+#V2ray
+bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
