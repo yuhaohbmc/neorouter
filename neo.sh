@@ -95,6 +95,11 @@ ufw allow in on ${wannic} to any port 6881 proto tcp
 ufw allow in on ${wannic} to any port 6881 proto udp
 ufw allow proto tcp from ${lancdir} to 192.168.1.1 port 22
 ufw allow from ${lancdir}
+ufw allow 25/tcp
+ufw allow 53/udp
+ufw allow 67/udp
+ufw allow 68/udp
+
 
 
 #restart ufw;
