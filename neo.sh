@@ -54,10 +54,10 @@ echo net.ipv4.conf.all.secure_redirects = 0 >> /etc/sysctl.conf
 echo net.ipv4.conf.default.secure_redirects = 0 >> /etc/sysctl.conf
 
 #enable ARP for same subnet in OpenConnect VPN
-net.ipv4.conf.all.proxy_arp=1
+echo net.ipv4.conf.all.proxy_arp=1 >> /etc/sysctl.conf
 
 #increase maximum file size that the system can handle
-fs.file-max=100000
+echo fs.file-max=100000 >> /etc/sysctl.conf
 
 # This will increase the amount of memory available for socket input/output queues
 echo net.core.rmem_default = 256960 >> /etc/sysctl.conf
