@@ -3,6 +3,7 @@
 lannic="enp2s0"
 wannic="enp3s0"
 lancdir="192.168.1.0/24"
+v2rayconfig="/mnt/wdc/router/v2ray/config.json"
 
 # Check and install software updates;
 echo | add-apt-repository ppa:poplite/qbittorrent-enhanced
@@ -133,3 +134,6 @@ curl -sSO http://download.bt.cn/install/install_panel.sh && bash install_panel.s
 #./ocserv.sh
 #V2ray
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
+cp ${v2rayconfig}  /usr/local/etc/v2ray
+systemctl enable v2ray
+systemctl start v2ray
