@@ -93,12 +93,12 @@ ufw allow in on ${wannic} to any port 80 proto tcp
 ufw allow in on ${wannic} to any port 443 proto tcp
 ufw allow in on ${wannic} to any port 6881 proto tcp
 ufw allow in on ${wannic} to any port 6881 proto udp
-ufw allow proto tcp from ${lancdir} to 192.168.1.1 port 22
 ufw allow from ${lancdir}
 ufw allow 25/tcp
 ufw allow 53/udp
 ufw allow 67/udp
 ufw allow 68/udp
+ufw allow 2573/tcp
 
 
 
@@ -128,8 +128,8 @@ systemctl enable qbittorrent-enhanced-nox
 curl -sSO http://download.bt.cn/install/install_panel.sh && bash install_panel.sh -y
 
 #Compile the latest version of ocserv 1.1.2 and install
-wget https://raw.githubusercontent.com/NYOOBEO/Ubuntu-Router/main/ocserv.sh
-chmod 777 ocserv.sh
-./ocserv.sh
+#wget https://raw.githubusercontent.com/NYOOBEO/Ubuntu-Router/main/ocserv.sh
+#chmod 777 ocserv.sh
+#./ocserv.sh
 #V2ray
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
