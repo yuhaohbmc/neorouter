@@ -4,6 +4,7 @@ lannic="enp2s0"
 wannic="enp3s0"
 lancdir="192.168.1.0/24"
 v2rayconfig="/mnt/wdc/router/v2ray/config.json"
+smbconfig="/mnt/wdc/router/smb.conf"
 
 # Check and install software updates;
 echo | add-apt-repository ppa:poplite/qbittorrent-enhanced
@@ -110,20 +111,19 @@ ufw enable -y
 #install software;
 #Samba for file sharing;
 #Qbittorrent-nox-enhanced for torrent and magnet download;
-#emby for internal media play;
+#Jellyfin for internal media play;
 #AdGuardHome for DNS and DHCP server;
-
 wget https://static.adguard.com/adguardhome/release/AdGuardHome_linux_amd64.tar.gz
 tar xvf AdGuardHome_linux_amd64.tar.gz
 mv AdGuardHome  /usr/share/
 chmod 777 -R /usr/share/AdGuardHome
-./usr/share/AdGuardHome -s install
+./usr/share/AdGuardHome/AdGuardHome -s install
 sudo apt install apt-transport-https
 wget -O - https://repo.jellyfin.org/jellyfin_team.gpg.key | sudo apt-key add -
 echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$( awk -F'=' '/^ID=/{ print $NF }' /etc/os-release ) $( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release ) main" | sudo tee /etc/apt/sources.list.d/jellyfin.list
 sudo apt update
 sudo apt install jellyfin samba qbittorrent-enhanced-nox -y
-systemctl enable qbittorrent-enhanced-nox
+
 
 # Install BT Panel for Website Hosting and SSL;
 curl -sSO http://download.bt.cn/install/install_panel.sh && bash install_panel.sh -y
@@ -134,6 +134,19 @@ curl -sSO http://download.bt.cn/install/install_panel.sh && bash install_panel.s
 #./ocserv.sh
 #V2ray
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
+
+#updated config files
+mv /etc/samba/smb.conf /etc/samba/smb.conf.bak
+cp ${smbconfig} /etc/samba
+mv /usr/local/etc/v2ray/config.json  /usr/local/etc/v2ray/config.json.bak
 cp ${v2rayconfig}  /usr/local/etc/v2ray
+
+#enable and reload all the services
+systemctl enable AdGuardHome
+systemctl restart AdGuardHome
+systemctl enable qbittorrent-enhanced-nox
+systemctl restart qbittorrent-enhanced-nox
 systemctl enable v2ray
-systemctl start v2ray
+systemctl restart v2ray
+systemctl enable samba
+systemctl restart samba
