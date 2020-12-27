@@ -111,8 +111,7 @@ ufw enable -y
 #Qbittorrent-nox-enhanced for torrent and magnet download;
 #emby for internal media play;
 #AdGuardHome for DNS and DHCP server;
-apt install samba qbittorrent-enhanced-nox -y
-systemctl enable qbittorrent-enhanced-nox
+
 wget https://static.adguard.com/adguardhome/release/AdGuardHome_linux_amd64.tar.gz
 tar xvf AdGuardHome_linux_amd64.tar.gz
 mv AdGuardHome  /usr/share/
@@ -122,7 +121,8 @@ sudo apt install apt-transport-https
 wget -O - https://repo.jellyfin.org/jellyfin_team.gpg.key | sudo apt-key add -
 echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$( awk -F'=' '/^ID=/{ print $NF }' /etc/os-release ) $( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release ) main" | sudo tee /etc/apt/sources.list.d/jellyfin.list
 sudo apt update
-sudo apt install jellyfin
+sudo apt install jellyfin samba qbittorrent-enhanced-nox -y
+systemctl enable qbittorrent-enhanced-nox
 
 # Install BT Panel for Website Hosting and SSL;
 curl -sSO http://download.bt.cn/install/install_panel.sh && bash install_panel.sh -y
