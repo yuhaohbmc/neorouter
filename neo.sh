@@ -133,6 +133,7 @@ mv /etc/samba/smb.conf /etc/samba/smb.conf.bak
 cp ${smbconfig} /etc/samba
 mv /usr/local/etc/v2ray/config.json  /usr/local/etc/v2ray/config.json.bak
 cp ${v2rayconfig}  /usr/local/etc/v2ray
+cp /mnt/wdc/router/ocserv/*  /etc/ocserv
 
 #enable and reload all the services
 systemctl enable AdGuardHome
