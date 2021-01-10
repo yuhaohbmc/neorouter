@@ -125,10 +125,6 @@ sudo apt update
 sudo apt install jellyfin samba qbittorrent-enhanced-nox ocserv -y
 
 
-# Install BT Panel for Website Hosting and SSL;
-curl -sSO http://download.bt.cn/install/install_panel.sh && bash install_panel.sh -y
-
-
 #V2ray
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
 
@@ -147,3 +143,6 @@ systemctl enable v2ray
 systemctl restart v2ray
 systemctl enable samba
 systemctl restart samba
+
+# Install BT Panel for Website Hosting and SSL;
+curl -sSO http://download.bt.cn/install/install_panel.sh && bash install_panel.sh -y
