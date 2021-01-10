@@ -122,16 +122,13 @@ sudo apt install apt-transport-https
 wget -O - https://repo.jellyfin.org/jellyfin_team.gpg.key | sudo apt-key add -
 echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$( awk -F'=' '/^ID=/{ print $NF }' /etc/os-release ) $( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release ) main" | sudo tee /etc/apt/sources.list.d/jellyfin.list
 sudo apt update
-sudo apt install jellyfin samba qbittorrent-enhanced-nox -y
+sudo apt install jellyfin samba qbittorrent-enhanced-nox ocserv -y
 
 
 # Install BT Panel for Website Hosting and SSL;
 curl -sSO http://download.bt.cn/install/install_panel.sh && bash install_panel.sh -y
 
-#Compile the latest version of ocserv 1.1.2 and install
-#wget https://raw.githubusercontent.com/NYOOBEO/Ubuntu-Router/main/ocserv.sh
-#chmod 777 ocserv.sh
-#./ocserv.sh
+
 #V2ray
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
 
