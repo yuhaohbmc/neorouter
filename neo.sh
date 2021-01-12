@@ -116,7 +116,7 @@ wget https://static.adguard.com/adguardhome/release/AdGuardHome_linux_amd64.tar.
 tar xvf AdGuardHome_linux_amd64.tar.gz
 mv AdGuardHome  /usr/share/
 chmod 777 -R /usr/share/AdGuardHome
-./usr/share/AdGuardHome/AdGuardHome -s install
+/usr/share/AdGuardHome/AdGuardHome -s install
 sudo apt install apt-transport-https
 wget -O - https://repo.jellyfin.org/jellyfin_team.gpg.key | sudo apt-key add -
 echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$( awk -F'=' '/^ID=/{ print $NF }' /etc/os-release ) $( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release ) main" | sudo tee /etc/apt/sources.list.d/jellyfin.list
