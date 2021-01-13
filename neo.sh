@@ -127,6 +127,9 @@ sudo apt install jellyfin qbittorrent-enhanced-nox ocserv -y
 #V2ray
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
 
+#KMS
+wget --no-check-certificate https://github.com/teddysun/across/raw/master/kms.sh && chmod +x kms.sh && ./kms.sh
+
 #updated config files
 mv /usr/local/etc/v2ray/config.json  /usr/local/etc/v2ray/config.json.bak
 cp ${v2rayconfig}  /usr/local/etc/v2ray
