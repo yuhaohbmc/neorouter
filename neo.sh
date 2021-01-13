@@ -141,4 +141,4 @@ systemctl enable v2ray
 systemctl restart v2ray
 
 # Install BT Panel for Website Hosting and SSL;
-curl -sSO http://download.bt.cn/install/install_panel.sh && bash install_panel.sh -y
+curl -sSO http://download.bt.cn/install/install_panel.sh && echo | bash install_panel.sh 
