@@ -95,11 +95,11 @@ ufw allow in on ${wannic} to any port 443 proto tcp
 ufw allow in on ${wannic} to any port 6881 proto tcp
 ufw allow in on ${wannic} to any port 6881 proto udp
 ufw allow from ${lancdir}
-ufw allow 25/tcp
 ufw allow 53/udp
 ufw allow 67/udp
 ufw allow 68/udp
 ufw allow 2573/tcp
+ufw allow 1688
 
 
 
