@@ -5,11 +5,6 @@ wannic="enp3s0"
 lancdir="192.168.1.0/24"
 v2rayconfig="/mnt/wdc/router/v2ray/config.json"
 
-# Check and install software updates;
-echo | add-apt-repository ppa:poplite/qbittorrent-enhanced
-apt update
-apt upgrade -y
-
 
 #open ip4 forwarding, TCP BBR and prevent security issues;
 cp /etc/sysctl.conf  /etc/sysctl.conf.bak
@@ -107,6 +102,11 @@ ufw allow 1688
 ufw disable
 ufw enable -y
 
+# Check and install software updates;
+echo | add-apt-repository ppa:poplite/qbittorrent-enhanced
+apt update
+apt upgrade -y
+
 #install software;
 #Samba for file sharing;
 #Qbittorrent-nox-enhanced for torrent and magnet download;
@@ -136,11 +136,15 @@ cp ${v2rayconfig}  /usr/local/etc/v2ray
 cp /mnt/wdc/router/ocserv/*  /etc/ocserv
 
 #enable and reload all the services
+systemctl enable jellyfin
+systemctl enable ocserv
 systemctl enable AdGuardHome
-systemctl restart AdGuardHome
 systemctl enable qbittorrent-enhanced-nox
-systemctl restart qbittorrent-enhanced-nox
 systemctl enable v2ray
+systemctl restart AdGuardHome
+systemctl restart ocserv
+systemctl restart jellyfin
+systemctl restart qbittorrent-enhanced-nox
 systemctl restart v2ray
 
 # Install BT Panel for Website Hosting and SSL;
