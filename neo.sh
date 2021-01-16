@@ -65,7 +65,8 @@ echo net.core.wmem_max = 33554432 >> /etc/sysctl.conf
 echo net.ipv4.tcp_wmem = 10240 87380 33554432 >> /etc/sysctl.conf
 echo net.ipv4.tcp_mem = 33554432 33554432 33554432 >> /etc/sysctl.conf
 echo net.core.optmem_max = 87380 >> /etc/sysctl.conf
-
+echo net.ipv4.tcp_rfc1337 = 1 >> /etc/sysctl.conf
+echo net.ipv4.tcp_fin_timeout = 10 >> /etc/sysctl.conf
 
 #Enable TCP BBR
 echo net.core.default_qdisc=fq >> /etc/sysctl.conf
