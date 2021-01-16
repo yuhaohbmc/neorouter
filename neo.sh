@@ -32,7 +32,7 @@ echo kernel.randomize_va_space = 1 >> /etc/sysctl.conf
 # Block SYN attacks
 echo net.ipv4.tcp_syncookies = 1 >> /etc/sysctl.conf
 echo net.ipv4.tcp_max_syn_backlog = 2048 >> /etc/sysctl.conf
-echo net.ipv4.tcp_synack_retries = 2 >> /etc/sysctl.conf
+echo net.ipv4.tcp_synack_retries = 1 >> /etc/sysctl.conf
 echo net.ipv4.tcp_syn_retries = 5 >> /etc/sysctl.conf
 
 # Log Martians  
@@ -53,9 +53,10 @@ echo net.ipv4.conf.default.secure_redirects = 0 >> /etc/sysctl.conf
 echo net.ipv4.conf.all.proxy_arp=1 >> /etc/sysctl.conf
 
 #increase maximum file size that the system can handle
-echo fs.file-max=100000 >> /etc/sysctl.conf
+echo fs.file-max=5000000 >> /etc/sysctl.conf
 
 # This will increase the amount of memory available for socket input/output queues
+echo net.ipv4.tcp_tw_reuse = 1 >> /etc/sysctl.conf
 echo net.core.rmem_default = 256960 >> /etc/sysctl.conf
 echo net.core.rmem_max = 33554432 >> /etc/sysctl.conf
 echo net.ipv4.tcp_rmem = 10240 87380 33554432 >> /etc/sysctl.conf
