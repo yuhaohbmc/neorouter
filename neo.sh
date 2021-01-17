@@ -85,14 +85,14 @@ mv /etc/ufw/before.rules.new /etc/ufw/before.rules
 ufw default allow routed
 ufw default deny incoming
 ufw default allow outgoing
-ufw allow in on ${wannic} to ${lannic} port 4443 proto tcp
-ufw allow in on ${wannic} to ${lannic} port 1030 proto udp
-ufw allow in on ${wannic} to ${lannic} port 80 proto tcp
-ufw allow in on ${wannic} to ${lannic} port 443 proto tcp
-ufw allow in on ${wannic} to ${lannic} port 6881 proto tcp
-ufw allow in on ${wannic} to ${lannic} port 6881 proto udp
-ufw allow in on ${wannic} to ${lannic} port 2573 proto tcp
-ufw allow in on ${wannic} to ${lannic} port 1688 proto tcp
+ufw allow in on ${wannic} to any port 4443 proto tcp
+ufw allow in on ${wannic} to any port 1030 proto udp
+ufw allow in on ${wannic} to any port 80 proto tcp
+ufw allow in on ${wannic} to any port 443 proto tcp
+ufw allow in on ${wannic} to any port 6881 proto tcp
+ufw allow in on ${wannic} to any port 6881 proto udp
+ufw allow in on ${wannic} to any port 2573 proto tcp
+ufw allow in on ${wannic} to any port 1688 proto tcp
 ufw allow from ${lancdir}
 ufw allow 53/udp
 ufw allow 67/udp
