@@ -150,4 +150,4 @@ systemctl restart qbittorrent-enhanced-nox
 systemctl restart v2ray
 
 # Install BT Panel for Website Hosting and SSL;
-curl -sSO http://download.bt.cn/install/install_panel.sh && echo | bash install_panel.sh 
+curl -sSO http://download.bt.cn/install/install_panel.sh && bash install_panel.sh 
