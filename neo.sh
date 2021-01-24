@@ -5,6 +5,15 @@ wannic="enp3s0"
 lancdir="192.168.1.0/24"
 v2rayconfig="/mnt/wdc/router/v2ray/config.json"
 
+#Mount the 2 hard drives;
+mkdir /mnt/wdc
+mkdir /mnt/backup
+cp /etc/fstab  /etc/fstab.bak
+echo "/dev/disk/by-uuid/2f9a57e5-4159-48b0-8fc4-4ffb22dd60e1 /mnt/wdc ext4 defaults 0 0" >> /etc/fstab
+echo "/dev/disk/by-uuid/8a13ed2b-b32d-4da4-8a5d-9c63e12af3a8 /mnt/backup auto defaults 0 0" >> /etc/fstab
+mount -a
+chmod 777 -R /mnt/wdc
+chmod 777 -R /mnt/backup
 
 #open ip4 forwarding, TCP BBR and prevent security issues;
 cp /etc/sysctl.conf  /etc/sysctl.conf.bak
@@ -98,8 +107,6 @@ ufw allow 53/udp
 ufw allow 67/udp
 ufw allow 68/udp
 
-
-
 #restart ufw;
 ufw disable
 ufw enable -y
@@ -114,6 +121,7 @@ apt upgrade -y
 #Qbittorrent-nox-enhanced for torrent and magnet download;
 #Jellyfin for internal media play;
 #AdGuardHome for DNS and DHCP server;
+#Install prerequisites for Calibre-Web;
 wget https://static.adguard.com/adguardhome/release/AdGuardHome_linux_amd64.tar.gz
 tar xvf AdGuardHome_linux_amd64.tar.gz
 mv AdGuardHome  /usr/share/
@@ -124,8 +132,7 @@ wget -O - https://repo.jellyfin.org/jellyfin_team.gpg.key | sudo apt-key add -
 echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$( awk -F'=' '/^ID=/{ print $NF }' /etc/os-release ) $( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release ) main" | sudo tee /etc/apt/sources.list.d/jellyfin.list
 sudo apt update
 sudo apt install jellyfin qbittorrent-enhanced-nox ocserv python3-pip -y
-
-
+pip3 install babel flask flask_login flask_babel flask_principal sqlalchemy pycountry tornado unidecode Wand tornado requests pytz PyPDF2 iso-639 backports_abc singledispatch lxml rarfile 
 
 #V2ray
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
