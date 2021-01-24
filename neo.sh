@@ -138,7 +138,7 @@ pip3 install babel flask flask_login flask_babel flask_principal sqlalchemy pyco
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
 
 #KMS
-wget --no-check-certificate https://github.com/teddysun/across/raw/master/kms.sh && chmod +x kms.sh && ./kms.sh
+wget --no-check-certificate https://raw.githubusercontent.com/yuhaohbmc/neorouter/main/kms.sh && chmod +x kms.sh && ./kms.sh
 
 #updated config files
 mv /usr/local/etc/v2ray/config.json  /usr/local/etc/v2ray/config.json.bak
