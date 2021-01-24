@@ -1,0 +1,14 @@
+[Unit]
+Description=Calibre-Web
+Documentation=https://www.neosoft.club/
+After=network.target nss-lookup.target
+
+[Service]
+User=root
+NoNewPrivileges=true
+ExecStart=python3 /www/wwwroot/t.neosoft.club/cps.py
+Restart=on-failure
+RestartPreventExitStatus=23
+
+[Install]
+WantedBy=multi-user.target
