@@ -16,3 +16,7 @@ Set IP forwarding, NAT and UFW firewall related.
 
 
 download neo.sh to your local server, grant permissions and run it.
+
+Jellyfin CSS theme(tested working on 24th, Jan, 2021):
+
+@import url('https://ctalvio.github.io/Monochromic/default_style.css');
