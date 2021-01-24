@@ -145,7 +145,14 @@ mv /usr/local/etc/v2ray/config.json  /usr/local/etc/v2ray/config.json.bak
 cp ${v2rayconfig}  /usr/local/etc/v2ray
 cp /mnt/wdc/router/ocserv/*  /etc/ocserv
 
+#Add services on boot up;
+wget https://github.com/yuhaohbmc/neorouter/blame/main/rc-local.service  -P  /etc/systemd/system
+wget https://raw.githubusercontent.com/yuhaohbmc/neorouter/main/calibre.service -P  /etc/systemd/system
+wget https://raw.githubusercontent.com/yuhaohbmc/neorouter/main/rc.local -P /etc
+chmod +x /etc/rc.local
+
 #enable and reload all the services
+ln -s /lib/systemd/system/rc-local.service /etc/systemd/system/
 systemctl enable jellyfin
 systemctl enable ocserv
 systemctl enable AdGuardHome
@@ -156,6 +163,9 @@ systemctl restart ocserv
 systemctl restart jellyfin
 systemctl restart qbittorrent-enhanced-nox
 systemctl restart v2ray
+systemctl enable calibre
+systemctl start calibre
+
 
 # Install BT Panel for Website Hosting and SSL;
 curl -sSO http://download.bt.cn/install/install_panel.sh && bash install_panel.sh 
