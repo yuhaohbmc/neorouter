@@ -131,7 +131,7 @@ sudo apt install apt-transport-https
 wget -O - https://repo.jellyfin.org/jellyfin_team.gpg.key | sudo apt-key add -
 echo "deb [arch=$( dpkg --print-architecture )] https://repo.jellyfin.org/$( awk -F'=' '/^ID=/{ print $NF }' /etc/os-release ) $( awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release ) main" | sudo tee /etc/apt/sources.list.d/jellyfin.list
 sudo apt update
-sudo apt install jellyfin qbittorrent-enhanced-nox ocserv python3-pip -y
+sudo apt install jellyfin qbittorrent-enhanced-nox ocserv python3-pip samba -y
 pip3 install babel flask flask_login flask_babel flask_principal sqlalchemy pycountry tornado unidecode Wand tornado requests pytz PyPDF2 iso-639 backports_abc singledispatch lxml rarfile 
 
 #V2ray
@@ -144,6 +144,21 @@ wget --no-check-certificate https://raw.githubusercontent.com/yuhaohbmc/neoroute
 mv /usr/local/etc/v2ray/config.json  /usr/local/etc/v2ray/config.json.bak
 cp ${v2rayconfig}  /usr/local/etc/v2ray
 cp /mnt/wdc/router/ocserv/*  /etc/ocserv
+cp /etc/samba/smb.conf  //etc/samba/smb.conf.bak
+echo [neoshare] >> /etc/samba/smb.conf
+echo path = /mnt/wdc >> /etc/samba/smb.conf
+echo browseable = yes >> /etc/samba/smb.conf
+echo guest ok = yes >> /etc/samba/smb.conf
+echo read only = no >> /etc/samba/smb.conf
+echo create mask = 0755 >> /etc/samba/smb.conf
+echo >> /etc/samba/smb.conf
+echo [backup] >> /etc/samba/smb.conf
+echo path = /mnt/backup >> /etc/samba/smb.conf
+echo browseable = yes >> /etc/samba/smb.conf
+echo guest ok = yes >> /etc/samba/smb.conf
+echo read only = no >> /etc/samba/smb.conf
+echo create mask = 0755 >> /etc/samba/smb.conf
+echo >> /etc/samba/smb.conf
 
 #Add services on boot up;
 wget https://github.com/yuhaohbmc/neorouter/blame/main/rc-local.service  -P  /etc/systemd/system
@@ -165,6 +180,7 @@ systemctl restart qbittorrent-enhanced-nox
 systemctl restart v2ray
 systemctl enable calibre
 systemctl start calibre
+systemctl restart smbd
 
 
 # Install BT Panel for Website Hosting and SSL;
