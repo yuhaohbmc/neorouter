@@ -109,7 +109,7 @@ ufw allow 68/udp
 
 #restart ufw;
 ufw disable
-ufw enable -y
+echo "y" | ufw enable 
 
 # Check and install software updates;
 echo | add-apt-repository ppa:poplite/qbittorrent-enhanced
