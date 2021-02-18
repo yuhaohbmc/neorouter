@@ -161,7 +161,7 @@ echo create mask = 0755 >> /etc/samba/smb.conf
 echo >> /etc/samba/smb.conf
 
 #Add services on boot up;
-wget https://github.com/yuhaohbmc/neorouter/blame/main/rc-local.service  -P  /etc/systemd/system
+wget https://raw.githubusercontent.com/yuhaohbmc/neorouter/main/rc-local.service  -P  /etc/systemd/system
 wget https://raw.githubusercontent.com/yuhaohbmc/neorouter/main/calibre.service -P  /etc/systemd/system
 wget https://raw.githubusercontent.com/yuhaohbmc/neorouter/main/rc.local -P /etc
 chmod +x /etc/rc.local
