@@ -19,50 +19,9 @@ chmod 777 -R /mnt/backup
 cp /etc/sysctl.conf  /etc/sysctl.conf.bak
 echo net/ipv4/ip_forward=1 >> /etc/sysctl.conf
 
-# Protect from IP Spoofing  
-echo net.ipv4.conf.all.rp_filter = 1 >> /etc/sysctl.conf
-echo net.ipv4.conf.default.rp_filter = 1 >> /etc/sysctl.conf
-
-# Ignore ICMP broadcast requests
-echo net.ipv4.icmp_echo_ignore_broadcasts = 1 >> /etc/sysctl.conf
-
-# Protect from bad icmp error messages
-echo net.ipv4.icmp_ignore_bogus_error_responses = 1 >> /etc/sysctl.conf
-
-# Disable source packet routing
-echo net.ipv4.conf.all.accept_source_route = 0 >> /etc/sysctl.conf
-echo net.ipv4.conf.default.accept_source_route = 0 >> /etc/sysctl.conf
-
-
-# Turn on exec shield
-echo kernel.exec-shield = 1 >> /etc/sysctl.conf
-echo kernel.randomize_va_space = 1 >> /etc/sysctl.conf
-
-# Block SYN attacks
-echo net.ipv4.tcp_syncookies = 1 >> /etc/sysctl.conf
-echo net.ipv4.tcp_max_syn_backlog = 2048 >> /etc/sysctl.conf
-echo net.ipv4.tcp_synack_retries = 1 >> /etc/sysctl.conf
-echo net.ipv4.tcp_syn_retries = 5 >> /etc/sysctl.conf
-
-# Log Martians  
-echo net.ipv4.conf.all.log_martians = 1 >> /etc/sysctl.conf
-echo net.ipv4.icmp_ignore_bogus_error_responses = 1 >> /etc/sysctl.conf
-
-# Ignore send redirects
-echo net.ipv4.conf.all.send_redirects = 0 >> /etc/sysctl.conf
-echo net.ipv4.conf.default.send_redirects = 0 >> /etc/sysctl.conf
-
-# Ignore ICMP redirects
-echo net.ipv4.conf.all.accept_redirects = 0 >> /etc/sysctl.conf
-echo net.ipv4.conf.default.accept_redirects = 0 >> /etc/sysctl.conf
-echo net.ipv4.conf.all.secure_redirects = 0 >> /etc/sysctl.conf
-echo net.ipv4.conf.default.secure_redirects = 0 >> /etc/sysctl.conf
-
-#enable ARP for same subnet in OpenConnect VPN
-echo net.ipv4.conf.all.proxy_arp=1 >> /etc/sysctl.conf
 
 #increase maximum file size that the system can handle
-echo fs.file-max=5000000 >> /etc/sysctl.conf
+echo fs.file-max=15000000 >> /etc/sysctl.conf
 
 # This will increase the amount of memory available for socket input/output queues
 echo net.ipv4.tcp_tw_reuse = 1 >> /etc/sysctl.conf
