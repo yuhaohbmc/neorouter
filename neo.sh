@@ -109,6 +109,7 @@ echo path = /mnt/wdc >> /etc/samba/smb.conf
 echo browseable = yes >> /etc/samba/smb.conf
 echo guest ok = yes >> /etc/samba/smb.conf
 echo read only = no >> /etc/samba/smb.conf
+echo socket options = TCP_NODELAY  >> /etc/samba/smb.conf
 echo create mask = 0755 >> /etc/samba/smb.conf
 echo >> /etc/samba/smb.conf
 echo [backup] >> /etc/samba/smb.conf
@@ -116,6 +117,7 @@ echo path = /mnt/backup >> /etc/samba/smb.conf
 echo browseable = yes >> /etc/samba/smb.conf
 echo guest ok = yes >> /etc/samba/smb.conf
 echo read only = no >> /etc/samba/smb.conf
+echo socket options = TCP_NODELAY  >> /etc/samba/smb.conf
 echo create mask = 0755 >> /etc/samba/smb.conf
 echo >> /etc/samba/smb.conf
 
