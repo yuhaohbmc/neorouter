@@ -103,7 +103,7 @@ wget --no-check-certificate https://raw.githubusercontent.com/yuhaohbmc/neoroute
 mv /usr/local/etc/v2ray/config.json  /usr/local/etc/v2ray/config.json.bak
 cp ${v2rayconfig}  /usr/local/etc/v2ray
 cp /mnt/wdc/router/ocserv/*  /etc/ocserv
-cp /etc/samba/smb.conf  //etc/samba/smb.conf.bak
+cp /etc/samba/smb.conf  /etc/samba/smb.conf.bak
 echo [neoshare] >> /etc/samba/smb.conf
 echo path = /mnt/wdc >> /etc/samba/smb.conf
 echo browseable = yes >> /etc/samba/smb.conf
